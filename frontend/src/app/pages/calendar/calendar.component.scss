@@ -1,0 +1,59 @@
+.calendar-page{
+
+ display:flex;
+ flex-direction:column;
+ gap:20px;
+
+}
+
+.page-header{
+
+ display:flex;
+
+ justify-content:space-between;
+
+ align-items:center;
+
+}
+
+.calendar-card{
+
+ background:white;
+
+ border-radius:20px;
+
+ padding:20px;
+
+ box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+ overflow:hidden;
+
+}
+
+::ng-deep .fc{
+
+ font-family:'Poppins',sans-serif;
+
+}
+
+::ng-deep .fc-button{
+
+ background:#c89b3c !important;
+
+ border:none !important;
+
+}
+
+::ng-deep .fc-button-active{
+
+ background:#1e1e1e !important;
+
+}
+
+::ng-deep .fc-event{
+
+ background:#c89b3c !important;
+
+ border:none !important;
+
+}

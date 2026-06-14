@@ -1,0 +1,47 @@
+<div class="top-bar">
+  <h2>Appointments</h2>
+
+  <a routerLink="/appointments/new" class="add-btn"> + New Appointment </a>
+</div>
+
+<div class="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th>Client</th>
+        <th>Staff</th>
+        <th>Service</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let item of appointments">
+        <td>{{ item.clientName }}</td>
+
+        <td>{{ item.staffName }}</td>
+
+        <td>{{ item.service }}</td>
+
+        <td>{{ item.date }}</td>
+
+        <td>{{ item.time }}</td>
+
+        <td>{{ item.status }}</td>
+
+        <td>
+          <button class="delete-btn" (click)="deleteAppointment(item.id)">
+            Delete
+          </button>
+        </td>
+      </tr>
+
+      <tr *ngIf="appointments.length === 0">
+        <td colspan="7">No appointments found</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

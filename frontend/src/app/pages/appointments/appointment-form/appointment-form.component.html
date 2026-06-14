@@ -1,0 +1,29 @@
+<div class="appointment-card">
+  <h2>New Appointment</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <input placeholder="Client Name" formControlName="clientName" />
+
+    <input placeholder="Phone Number" formControlName="phone" />
+
+    <input placeholder="Staff Name" formControlName="staffName" />
+
+    <select formControlName="service" (change)="updatePrice()">
+      <option value="">Select Service</option>
+
+      <option *ngFor="let s of services" [value]="s.name">
+        {{ s.name }}
+      </option>
+    </select>
+
+    <input formControlName="price" readonly />
+
+    <input type="date" formControlName="date" />
+
+    <input type="time" formControlName="time" />
+
+    <textarea rows="4" placeholder="Notes" formControlName="notes"> </textarea>
+
+    <button type="submit">Book Appointment</button>
+  </form>
+</div>

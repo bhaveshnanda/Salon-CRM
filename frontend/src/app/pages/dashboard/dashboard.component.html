@@ -1,0 +1,51 @@
+<div class="dashboard">
+  <div class="welcome-card">
+    <div>
+      <h1>Welcome Back 👋</h1>
+
+      <p>Manage your salon efficiently</p>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card" *ngFor="let stat of stats">
+      <h4>
+        {{ stat.title }}
+      </h4>
+
+      <h2>
+        {{ stat.value }}
+      </h2>
+    </div>
+  </div>
+
+  <div class="bottom-grid">
+    <div class="card">
+      <h3>Today's Schedule</h3>
+
+      <ul>
+        <li>09:00 AM - Hair Cut</li>
+
+        <li>10:30 AM - Hair Spa</li>
+
+        <li>01:00 PM - Facial</li>
+
+        <li>04:00 PM - Hair Color</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Top Services</h3>
+
+      <ul>
+        <li>Hair Cut</li>
+
+        <li>Hair Spa</li>
+
+        <li>Facial</li>
+
+        <li>Hair Coloring</li>
+      </ul>
+    </div>
+  </div>
+</div>

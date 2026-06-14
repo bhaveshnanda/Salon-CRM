@@ -1,0 +1,44 @@
+<div class="top-bar">
+  <h2>Salon Staff</h2>
+
+  <a routerLink="/staff/new" class="add-btn"> + Add Staff </a>
+</div>
+
+<div class="table-card">
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Designation</th>
+        <th>Specialization</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let item of staff">
+        <td>{{ item.name }}</td>
+
+        <td>{{ item.phone }}</td>
+
+        <td>{{ item.designation }}</td>
+
+        <td>{{ item.specialization }}</td>
+
+        <td>{{ item.status }}</td>
+
+        <td>
+          <button class="delete-btn" (click)="deleteStaff(item.id)">
+            Delete
+          </button>
+        </td>
+      </tr>
+
+      <tr *ngIf="staff.length === 0">
+        <td colspan="6">No staff members found</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

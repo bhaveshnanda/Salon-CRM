@@ -1,0 +1,37 @@
+.form-card {
+  background: white;
+
+  border-radius: 20px;
+
+  padding: 30px;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+form {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 15px;
+}
+
+input {
+  padding: 14px;
+
+  border: 1px solid #ddd;
+
+  border-radius: 10px;
+}
+
+button {
+  background: #c89b3c;
+
+  color: white;
+
+  border: none;
+
+  padding: 14px;
+
+  border-radius: 10px;
+}

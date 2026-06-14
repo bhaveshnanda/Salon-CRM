@@ -1,0 +1,88 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap');
+
+:root {
+  --primary: #c89b3c;
+  --secondary: #1e1e1e;
+  --background: #f8f3ea;
+  --card: #ffffff;
+  --text: #444;
+  --shadow: 0 10px 30px rgba(0,0,0,.08);
+  --radius: 18px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--background);
+  color: var(--text);
+}
+
+.page-title {
+  font-family: 'Playfair Display', serif;
+}
+
+.card {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.gold-btn {
+  background: var(--primary);
+  color: white;
+}
+
+
+@media(max-width:992px){
+
+ .sidebar{
+  width:80px !important;
+ }
+
+ .brand{
+  font-size:18px !important;
+ }
+
+}
+
+@media(max-width:768px){
+
+ .layout{
+  flex-direction:column;
+ }
+
+ .sidebar{
+  width:100% !important;
+  height:auto !important;
+  flex-direction:row !important;
+  overflow:auto;
+ }
+
+ .main-content{
+  width:100%;
+ }
+
+}
+
+@media(max-width:576px){
+
+ .login-card{
+  padding:20px !important;
+ }
+
+ .content{
+  padding:12px !important;
+ }
+
+}

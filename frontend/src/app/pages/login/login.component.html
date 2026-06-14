@@ -1,0 +1,23 @@
+<div class="login-container">
+  <div class="login-card">
+    <h1>Luxury Salon CRM</h1>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <input type="text" placeholder="User ID" formControlName="userid" />
+
+      <input
+        type="password"
+        placeholder="Password"
+        formControlName="password"
+      />
+
+      <button type="submit">Login</button>
+    </form>
+
+    <div class="register-link">
+      Don't have an account?
+
+      <a routerLink="/register"> Create Account </a>
+    </div>
+  </div>
+</div>

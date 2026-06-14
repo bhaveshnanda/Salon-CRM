@@ -1,0 +1,42 @@
+<div class="register-container">
+
+ <div class="register-card">
+
+  <h1>Create Account</h1>
+
+  <form
+  [formGroup]="form"
+  (ngSubmit)="submit()">
+
+   <input
+   placeholder="Full Name"
+   formControlName="name">
+
+   <input
+   placeholder="User ID"
+   formControlName="userid">
+
+   <input
+   placeholder="Email"
+   formControlName="email">
+
+   <input
+   placeholder="Phone"
+   formControlName="phone">
+
+   <input
+   type="password"
+   placeholder="Password"
+   formControlName="password">
+
+   <button type="submit">
+
+    Create Account
+
+   </button>
+
+  </form>
+
+ </div>
+
+</div>

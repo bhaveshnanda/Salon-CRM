@@ -1,0 +1,84 @@
+.register-container{
+
+ min-height:100vh;
+
+ display:flex;
+
+ align-items:center;
+
+ justify-content:center;
+
+ padding:20px;
+
+ background:
+ linear-gradient(
+ rgba(0,0,0,.5),
+ rgba(0,0,0,.5)
+ ),
+ url('/assets/images/salon-bg.jpg');
+
+ background-size:cover;
+
+}
+
+.register-card{
+
+ width:100%;
+ max-width:500px;
+
+ background:white;
+
+ border-radius:25px;
+
+ padding:35px;
+
+ box-shadow:
+ 0 15px 40px rgba(0,0,0,.2);
+
+}
+
+h1{
+
+ text-align:center;
+
+ color:#c89b3c;
+
+ margin-bottom:25px;
+
+}
+
+form{
+
+ display:flex;
+
+ flex-direction:column;
+
+ gap:15px;
+
+}
+
+input{
+
+ padding:14px;
+
+ border:1px solid #ddd;
+
+ border-radius:12px;
+
+}
+
+button{
+
+ background:#c89b3c;
+
+ color:white;
+
+ border:none;
+
+ padding:14px;
+
+ border-radius:12px;
+
+ cursor:pointer;
+
+}

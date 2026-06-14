@@ -1,0 +1,45 @@
+.sidebar{
+
+ width:260px;
+
+ background:#1e1e1e;
+
+ color:white;
+
+ height:100vh;
+
+ display:flex;
+
+ flex-direction:column;
+
+}
+
+.brand{
+
+ padding:25px;
+
+ font-size:28px;
+
+ color:#c89b3c;
+
+ font-weight:700;
+
+}
+
+a{
+
+ color:white;
+
+ text-decoration:none;
+
+ padding:16px 25px;
+
+}
+
+a:hover{
+
+ background:#2d2d2d;
+
+ color:#c89b3c;
+
+}
