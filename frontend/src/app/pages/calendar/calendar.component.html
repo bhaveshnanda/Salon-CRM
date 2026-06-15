@@ -1,10 +1,41 @@
-<p>calendar works!</p>
 <div class="calendar-page">
-  <div class="page-header">
-    <h2>Appointment Calendar</h2>
+  <div class="calendar-header">
+    <h2>Salon Booking Calendar</h2>
+
+    <input type="date" [(ngModel)]="selectedDate" />
   </div>
 
-  <div class="calendar-card">
-    <full-calendar [options]="calendarOptions"> </full-calendar>
-  </div>
+  <table class="calendar-table">
+    <thead>
+      <tr>
+        <th>Time</th>
+
+        <th *ngFor="let member of staff">
+          {{ member.name }}
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let slot of slots">
+        <td>{{ slot }}</td>
+
+        <td *ngFor="let member of staff">
+          <ng-container
+            *ngIf="getAppointment(member.id, slot) as booking; else freeSlot"
+          >
+            <div class="booked-slot">
+              {{ booking.service }}
+            </div>
+          </ng-container>
+
+          <ng-template #freeSlot>
+            <button class="available-slot" (click)="bookSlot(member, slot)">
+              Available
+            </button>
+          </ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

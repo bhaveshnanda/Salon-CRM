@@ -1,9 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
-
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-
 import { CommonModule } from '@angular/common';
-
+import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 
 import { AppointmentService } from '../../../core/services/appointment.service';
@@ -20,7 +18,7 @@ import { ServiceService } from '../../../core/services/service.service';
 })
 export class AppointmentFormComponent implements OnInit {
   private fb = inject(FormBuilder);
-
+  private route = inject(ActivatedRoute);
   private router = inject(Router);
 
   private appointmentService = inject(AppointmentService);
@@ -69,8 +67,14 @@ export class AppointmentFormComponent implements OnInit {
     this.loadStaff();
 
     this.loadServices();
-  }
 
+    this.form.patchValue({
+      appointment_date: this.route.snapshot.queryParamMap.get('date') || '',
+
+      appointment_time: this.route.snapshot.queryParamMap.get('time') || '',
+    });
+  }
+  
   loadClients(): void {
     this.clientService.getClients().subscribe((res: any) => {
       this.clients = res;
@@ -80,6 +84,19 @@ export class AppointmentFormComponent implements OnInit {
   loadStaff(): void {
     this.staffService.getStaff().subscribe((res: any) => {
       this.staff = res;
+
+      const staffId = this.route.snapshot.queryParamMap.get('staffId');
+
+      if (staffId) {
+        const selectedStaff = this.staff.find((s) => s.id === staffId);
+
+        if (selectedStaff) {
+          this.form.patchValue({
+            staff_id: selectedStaff.id,
+            staff_name: selectedStaff.name,
+          });
+        }
+      }
     });
   }
 

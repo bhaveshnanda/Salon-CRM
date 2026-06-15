@@ -87,13 +87,40 @@
         </tbody>
       </table>
 
+      <div class="payment-section">
+        <div class="payment-status">
+          <strong>Status:</strong>
 
-      <div class="payment-status">
-        Status:
-        <span>{{ bill.payment_status }}</span>
+          <span
+            [style.color]="bill.payment_status === 'Paid' ? 'green' : '#e67e22'"
+          >
+            {{ bill.payment_status }}
+          </span>
+        </div>
+
+        <div
+          *ngIf="bill.payment_status !== 'Paid'"
+          class="payment-controls no-pdf"
+        >
+          <select #method>
+            <option value="Cash">Cash</option>
+            <option value="UPI">UPI</option>
+            <option value="Card">Card</option>
+          </select>
+
+          <button class="pay-btn" (click)="markPaid(method.value)">
+            Mark As Paid
+          </button>
+        </div>
+
+        <div *ngIf="bill.payment_status === 'Paid'" class="paid-info">
+          <strong>Payment Method:</strong>
+
+          {{ bill.payment_method }}
+        </div>
       </div>
 
-      <div class="invoice-actions">
+      <div class="invoice-actions no-pdf">
         <button class="download-btn" (click)="downloadPDF()">
           Download PDF
         </button>
@@ -104,7 +131,6 @@
       </div>
       <div class="invoice-footer">
         <p>Thank you for choosing Luxury Salon.</p>
-
         <p>This is a computer generated invoice.</p>
       </div>
     </div>

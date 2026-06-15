@@ -68,28 +68,55 @@ Total Amount: ₹${this.bill.total}
     }
   }
 
+  markPaid(method: string): void {
+    this.billingService.markAsPaid(this.bill.id, method).subscribe({
+      next: (res: any) => {
+        this.bill = res;
+
+        alert('Payment Updated Successfully');
+      },
+
+      error: (err: any) => {
+        console.error(err);
+
+        alert('Failed to update payment');
+      },
+    });
+  }
+
   downloadPDF() {
-    console.log("button pressed")
     const data = document.getElementById('invoice-print-area');
 
     if (!data) return;
 
-    html2canvas(data, {
-      scale: 2,
-    }).then((canvas) => {
-      const imgWidth = 210;
+    const hiddenElements = document.querySelectorAll('.no-pdf');
 
-      const pageHeight = 295;
-
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-      const pdf = new jsPDF('p', 'mm', 'a4');
-
-      const imgData = canvas.toDataURL('image/png');
-
-      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-
-      pdf.save(`${this.bill.invoice_no}.pdf`);
+    hiddenElements.forEach((el: any) => {
+      el.setAttribute('data-old-display', el.style.display);
+      el.style.display = 'none';
     });
+
+    setTimeout(() => {
+      html2canvas(data, {
+        scale: 2,
+        useCORS: true,
+      }).then((canvas) => {
+        hiddenElements.forEach((el: any) => {
+          el.style.display = el.getAttribute('data-old-display') || '';
+        });
+
+        const pdf = new jsPDF('p', 'mm', 'a4');
+
+        const imgData = canvas.toDataURL('image/png');
+
+        const imgWidth = 210;
+
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+
+        pdf.save(`${this.bill.invoice_no}.pdf`);
+      });
+    }, 200);
   }
 }

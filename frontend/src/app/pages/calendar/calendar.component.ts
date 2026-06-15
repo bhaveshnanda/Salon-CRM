@@ -1,57 +1,71 @@
-import { Component } from '@angular/core';
-
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { FullCalendarModule } from '@fullcalendar/angular';
-
-import { CalendarOptions } from '@fullcalendar/core';
-
-import dayGridPlugin from '@fullcalendar/daygrid';
-
-import timeGridPlugin from '@fullcalendar/timegrid';
-
-import interactionPlugin from '@fullcalendar/interaction';
+import { FormsModule } from '@angular/forms';   // <-- Add this
+import { Router } from '@angular/router';
+import { CalendarService } from '../../core/services/calendar.service';
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CommonModule, FullCalendarModule],
+  imports: [CommonModule, FormsModule],   // <-- Add FormsModule here
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
 })
-export class CalendarComponent {
-  calendarOptions: CalendarOptions = {
-    initialView: 'timeGridWeek',
 
-    plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+export class CalendarComponent implements OnInit {
+  private calendarService = inject(CalendarService);
 
-    selectable: true,
+  private router = inject(Router);
 
-    editable: true,
+  staff: any[] = [];
 
-    height: 'auto',
+  appointments: any[] = [];
 
-    headerToolbar: {
-      left: 'prev,next today',
+  slots = [
+    '09:00',
+    '10:00',
+    '11:00',
+    '12:00',
+    '13:00',
+    '14:00',
+    '15:00',
+    '16:00',
+    '17:00',
+  ];
 
-      center: 'title',
+  selectedDate = new Date().toISOString().split('T')[0];
 
-      right: 'dayGridMonth,timeGridWeek,timeGridDay',
-    },
+  ngOnInit(): void {
+    this.loadData();
+  }
 
-    events: [
-      {
-        title: 'Hair Cut',
-        start: '2026-06-14T09:00:00',
+  loadData() {
+    this.calendarService.getSchedule().subscribe({
+      next: (res: any) => {
+        this.staff = res.staff;
+
+        this.appointments = res.appointments;
       },
-      {
-        title: 'Facial',
-        start: '2026-06-14T11:00:00',
-      },
-    ],
+    });
+  }
 
-    dateClick: (info: any) => {
-      alert('Selected Slot: ' + info.dateStr);
-    },
-  };
+  getAppointment(staffId: string, time: string) {
+    return this.appointments.find((a) => {
+      return (
+        a.staff_id === staffId &&
+        a.appointment_time === time &&
+        a.appointment_date === this.selectedDate
+      );
+    });
+  }
+
+  bookSlot(staff: any, time: string) {
+    this.router.navigate(['/appointments/new'], {
+      queryParams: {
+        staffId: staff.id,
+        date: this.selectedDate,
+        time: time,
+      },
+    });
+  }
 }

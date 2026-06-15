@@ -1,27 +1,19 @@
-.details-wrapper {
-  padding: 20px;
+.details-page {
+  padding: 24px;
 }
 
 .details-card {
   background: white;
-  border-radius: 18px;
-  padding: 30px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 25px;
-}
-
-.back-btn {
-  background: #c89b3c;
-  color: white;
-  text-decoration: none;
-  padding: 10px 18px;
-  border-radius: 10px;
+  margin-bottom: 24px;
 }
 
 .info-grid {
@@ -30,39 +22,89 @@
   gap: 20px;
 }
 
-.info-box {
-  background: #fafafa;
-  padding: 15px;
-  border-radius: 12px;
-}
-
-.info-box label {
+label {
   font-size: 13px;
-  color: gray;
+  color: #888;
 }
 
-.info-box p {
-  margin-top: 8px;
+p {
+  margin-top: 4px;
   font-weight: 600;
 }
 
-.notes-section {
-  margin-top: 25px;
+.notes {
+  margin-top: 24px;
 }
 
-.loading {
-  text-align: center;
-  padding: 40px;
+.actions {
+  margin-top: 30px;
+  display: flex;
+  gap: 12px;
 }
 
-@media (max-width: 768px) {
-  .info-grid {
-    grid-template-columns: 1fr;
-  }
+.cancel-btn {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+}
 
-  .header {
-    flex-direction: column;
-    gap: 15px;
-    align-items: flex-start;
-  }
+.bill-btn {
+  background: #27ae60;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.status {
+  padding: 6px 12px;
+  border-radius: 30px;
+  font-size: 13px;
+}
+
+.booked {
+  background: #e8f7ee;
+  color: green;
+}
+
+.cancelled {
+  background: #fdeaea;
+  color: red;
+}
+
+.rescheduled {
+  background: #fff4df;
+  color: orange;
+}
+
+.reschedule-section {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.reschedule-form {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.reschedule-form input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.reschedule-btn {
+  background: #f39c12;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
 }

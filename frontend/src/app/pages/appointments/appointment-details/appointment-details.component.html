@@ -1,61 +1,93 @@
-<div class="details-wrapper">
-  <div *ngIf="loading" class="loading">Loading Appointment...</div>
+<div class="details-page">
+  <div *ngIf="loading">Loading appointment...</div>
 
   <div *ngIf="appointment && !loading" class="details-card">
     <div class="header">
       <h2>Appointment Details</h2>
 
-      <a routerLink="/appointments" class="back-btn"> Back </a>
+      <span
+        class="status"
+        [ngClass]="{
+          booked: appointment.status === 'Booked',
+          cancelled: appointment.status === 'Cancelled',
+          rescheduled: appointment.status === 'Rescheduled',
+        }"
+      >
+        {{ appointment.status }}
+      </span>
     </div>
 
     <div class="info-grid">
-      <div class="info-box">
-        <label>Client</label>
+      <div>
+        <label>Client Name</label>
         <p>{{ appointment.client_name }}</p>
       </div>
 
-      <div class="info-box">
+      <div>
         <label>Phone</label>
         <p>{{ appointment.phone }}</p>
       </div>
 
-      <div class="info-box">
+      <div>
         <label>Staff</label>
         <p>{{ appointment.staff_name }}</p>
       </div>
 
-      <div class="info-box">
+      <div>
         <label>Service</label>
         <p>{{ appointment.service }}</p>
       </div>
 
-      <div class="info-box">
+      <div>
         <label>Price</label>
         <p>₹ {{ appointment.price }}</p>
       </div>
 
-      <div class="info-box">
+      <div>
         <label>Date</label>
         <p>{{ appointment.appointment_date }}</p>
       </div>
 
-      <div class="info-box">
+      <div>
         <label>Time</label>
         <p>{{ appointment.appointment_time }}</p>
       </div>
 
-      <div class="info-box">
-        <label>Status</label>
-        <p>{{ appointment.status }}</p>
+      <div>
+        <label>Created At</label>
+        <p>{{ appointment.created_at | date: "dd MMM yyyy" }}</p>
       </div>
     </div>
 
-    <div class="notes-section">
-      <h3>Notes</h3>
+    <div class="notes">
+      <label>Notes</label>
+      <p>{{ appointment.notes || "No notes available" }}</p>
+    </div>
 
-      <p>
-        {{ appointment.notes || "No notes available" }}
-      </p>
+    <div class="reschedule-section" *ngIf="appointment.status !== 'Cancelled'">
+      <h3>Reschedule Appointment</h3>
+
+      <div class="reschedule-form">
+        <input type="date" [(ngModel)]="newDate" />
+
+        <input type="time" [(ngModel)]="newTime" />
+
+        <button class="reschedule-btn" (click)="rescheduleAppointment()">
+          Reschedule
+        </button>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button
+        class="cancel-btn"
+        *ngIf="appointment.status !== 'Cancelled'"
+        (click)="cancelAppointment()"
+      >
+        Cancel Appointment
+      </button>
+
+      <button class="bill-btn" (click)="generateBill()">Generate Bill</button>
     </div>
   </div>
 </div>

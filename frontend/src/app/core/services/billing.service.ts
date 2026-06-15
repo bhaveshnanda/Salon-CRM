@@ -16,6 +16,12 @@ export class BillingService {
     return this.http.get(this.api);
   }
 
+  markAsPaid(id: string, paymentMethod: string) {
+    return this.http.put(`${this.api}/pay/${id}`, {
+      payment_method: paymentMethod,
+    });
+  }
+
   getBill(id: string) {
     return this.http.get(`${this.api}/${id}`);
   }

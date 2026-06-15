@@ -37,6 +37,30 @@ exports.getBillById = async (req, res) => {
   }
 };
 
+exports.markAsPaid = async (req, res) => {
+  try {
+    const { payment_method } = req.body;
+
+    const { data, error } = await supabase
+      .from("bills")
+      .update({
+        payment_status: "Paid",
+        payment_method,
+      })
+      .eq("id", req.params.id)
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({
+      message: err.message,
+    });
+  }
+};
+
 exports.generateBill = async (req, res) => {
   try {
     const appointmentId = req.params.id;
