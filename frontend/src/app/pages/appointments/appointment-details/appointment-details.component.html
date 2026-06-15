@@ -1,1 +1,61 @@
-<p>appointment-details works!</p>
+<div class="details-wrapper">
+  <div *ngIf="loading" class="loading">Loading Appointment...</div>
+
+  <div *ngIf="appointment && !loading" class="details-card">
+    <div class="header">
+      <h2>Appointment Details</h2>
+
+      <a routerLink="/appointments" class="back-btn"> Back </a>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <label>Client</label>
+        <p>{{ appointment.client_name }}</p>
+      </div>
+
+      <div class="info-box">
+        <label>Phone</label>
+        <p>{{ appointment.phone }}</p>
+      </div>
+
+      <div class="info-box">
+        <label>Staff</label>
+        <p>{{ appointment.staff_name }}</p>
+      </div>
+
+      <div class="info-box">
+        <label>Service</label>
+        <p>{{ appointment.service }}</p>
+      </div>
+
+      <div class="info-box">
+        <label>Price</label>
+        <p>₹ {{ appointment.price }}</p>
+      </div>
+
+      <div class="info-box">
+        <label>Date</label>
+        <p>{{ appointment.appointment_date }}</p>
+      </div>
+
+      <div class="info-box">
+        <label>Time</label>
+        <p>{{ appointment.appointment_time }}</p>
+      </div>
+
+      <div class="info-box">
+        <label>Status</label>
+        <p>{{ appointment.status }}</p>
+      </div>
+    </div>
+
+    <div class="notes-section">
+      <h3>Notes</h3>
+
+      <p>
+        {{ appointment.notes || "No notes available" }}
+      </p>
+    </div>
+  </div>
+</div>

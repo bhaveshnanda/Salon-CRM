@@ -5,18 +5,15 @@ const router = express.Router();
 const protect = require("../middleware/auth.middleware");
 
 const {
-  generateBill,
   getBills,
   getBillById,
-  deleteBill,
+  generateBill,
 } = require("../controllers/billing.controller");
-
-router.post("/", protect, generateBill);
 
 router.get("/", protect, getBills);
 
 router.get("/:id", protect, getBillById);
 
-router.delete("/:id", protect, deleteBill);
+router.post("/generate/:id", protect, generateBill);
 
 module.exports = router;

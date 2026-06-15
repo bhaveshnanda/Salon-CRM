@@ -1,38 +1,71 @@
-<div class="top-bar">
-  <h2>Appointments</h2>
+<div class="page-header">
+  <div>
+    <h2>Appointments</h2>
+    <p>Manage all salon bookings</p>
+  </div>
 
   <a routerLink="/appointments/new" class="add-btn"> + New Appointment </a>
 </div>
 
-<div class="table-wrapper">
-  <table>
+<div class="table-card">
+  <div class="loading" *ngIf="loading">Loading appointments...</div>
+
+  <table *ngIf="!loading">
     <thead>
       <tr>
         <th>Client</th>
+        <th>Phone</th>
         <th>Staff</th>
         <th>Service</th>
         <th>Date</th>
         <th>Time</th>
         <th>Status</th>
-        <th>Action</th>
+        <th width="260">Actions</th>
       </tr>
     </thead>
 
     <tbody>
       <tr *ngFor="let item of appointments">
-        <td>{{ item.clientName }}</td>
+        <td>{{ item.client_name }}</td>
 
-        <td>{{ item.staffName }}</td>
+        <td>{{ item.phone }}</td>
+
+        <td>{{ item.staff_name }}</td>
 
         <td>{{ item.service }}</td>
 
-        <td>{{ item.date }}</td>
+        <td>{{ item.appointment_date }}</td>
 
-        <td>{{ item.time }}</td>
-
-        <td>{{ item.status }}</td>
+        <td>{{ item.appointment_time }}</td>
 
         <td>
+          <span
+            class="status"
+            [ngClass]="{
+              booked: item.status === 'Booked',
+              cancelled: item.status === 'Cancelled',
+              rescheduled: item.status === 'Rescheduled',
+            }"
+          >
+            {{ item.status }}
+          </span>
+        </td>
+
+        <td class="actions">
+          <a [routerLink]="['/appointments', item.id]" class="view-btn">
+            View
+          </a>
+
+          <button
+            class="cancel-btn"
+            (click)="cancelAppointment(item.id)"
+            *ngIf="item.status !== 'Cancelled'"
+          >
+            Cancel
+          </button>
+
+          <button class="bill-btn" (click)="generateBill(item.id)">Generate Bill</button>
+
           <button class="delete-btn" (click)="deleteAppointment(item.id)">
             Delete
           </button>
@@ -40,7 +73,7 @@
       </tr>
 
       <tr *ngIf="appointments.length === 0">
-        <td colspan="7">No appointments found</td>
+        <td colspan="8" class="empty">No appointments found</td>
       </tr>
     </tbody>
   </table>

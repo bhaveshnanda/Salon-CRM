@@ -1,1 +1,48 @@
-<p>service-list works!</p>
+<div class="top-bar">
+  <h2>Salon Services</h2>
+
+  <a routerLink="/services/new" class="add-btn"> + Add Service </a>
+</div>
+
+<div class="table-card">
+  <table>
+    <thead>
+      <tr>
+        <th>Service Name</th>
+        <th>Description</th>
+        <th>Duration</th>
+        <th>Price</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let item of services">
+        <td>{{ item.name }}</td>
+
+        <td>{{ item.description }}</td>
+
+        <td>{{ item.duration_minutes }} mins</td>
+
+        <td>₹{{ item.price }}</td>
+
+        <td>
+          <span class="status" [class.active]="item.status === 'Active'">
+            {{ item.status }}
+          </span>
+        </td>
+
+        <td>
+          <button class="delete-btn" (click)="deleteService(item.id)">
+            Delete
+          </button>
+        </td>
+      </tr>
+
+      <tr *ngIf="services.length === 0">
+        <td colspan="6">No services found</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

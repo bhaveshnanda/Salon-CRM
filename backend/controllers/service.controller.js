@@ -19,14 +19,17 @@ exports.getServices = async (req, res) => {
 
 exports.createService = async (req, res) => {
   try {
-    const { name, price } = req.body;
+    const { name, description, duration_minutes, price, status } = req.body;
 
     const { data, error } = await supabase
       .from("services")
       .insert([
         {
           name,
+          description,
+          duration_minutes,
           price,
+          status: status || "Active",
         },
       ])
       .select();
@@ -43,13 +46,17 @@ exports.createService = async (req, res) => {
 
 exports.updateService = async (req, res) => {
   try {
-    const { name, price } = req.body;
+    const { name, description, duration_minutes, price, status } = req.body;
 
     const { data, error } = await supabase
       .from("services")
       .update({
         name,
+        description,
+        duration_minutes,
         price,
+        status,
+        updated_at: new Date(),
       })
       .eq("id", req.params.id)
       .select();

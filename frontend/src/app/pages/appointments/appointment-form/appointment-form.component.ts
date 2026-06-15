@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 
@@ -7,6 +7,9 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { AppointmentService } from '../../../core/services/appointment.service';
+import { ClientService } from '../../../core/services/client.service';
+import { StaffService } from '../../../core/services/staff.service';
+import { ServiceService } from '../../../core/services/service.service';
 
 @Component({
   selector: 'app-appointment-form',
@@ -15,79 +18,133 @@ import { AppointmentService } from '../../../core/services/appointment.service';
   templateUrl: './appointment-form.component.html',
   styleUrls: ['./appointment-form.component.scss'],
 })
-export class AppointmentFormComponent {
-  fb = inject(FormBuilder);
+export class AppointmentFormComponent implements OnInit {
+  private fb = inject(FormBuilder);
 
-  appointmentService = inject(AppointmentService);
+  private router = inject(Router);
 
-  router = inject(Router);
+  private appointmentService = inject(AppointmentService);
 
-  services = [
-    {
-      name: 'Hair Cut',
-      price: 500,
-    },
+  private clientService = inject(ClientService);
 
-    {
-      name: 'Hair Spa',
-      price: 1500,
-    },
+  private staffService = inject(StaffService);
 
-    {
-      name: 'Facial',
-      price: 1200,
-    },
-  ];
+  private serviceService = inject(ServiceService);
+
+  clients: any[] = [];
+
+  staff: any[] = [];
+
+  services: any[] = [];
+
+  loading = false;
 
   form = this.fb.group({
-    clientName: ['', Validators.required],
+    client_id: ['', Validators.required],
 
-    phone: ['', Validators.required],
+    staff_id: ['', Validators.required],
 
-    staffName: ['', Validators.required],
+    service_id: ['', Validators.required],
 
-    service: ['', Validators.required],
+    client_name: [''],
+
+    phone: [''],
+
+    staff_name: [''],
+
+    service: [''],
 
     price: [0],
 
-    date: ['', Validators.required],
+    appointment_date: ['', Validators.required],
 
-    time: ['', Validators.required],
+    appointment_time: ['', Validators.required],
 
     notes: [''],
   });
 
-  updatePrice() {
-    const service = this.services.find(
-      (x) => x.name === this.form.value.service,
-    );
+  ngOnInit(): void {
+    this.loadClients();
 
-    if (service) {
-      this.form.patchValue({
-        price: service.price,
-      });
-    }
+    this.loadStaff();
+
+    this.loadServices();
   }
 
-  submit() {
+  loadClients(): void {
+    this.clientService.getClients().subscribe((res: any) => {
+      this.clients = res;
+    });
+  }
+
+  loadStaff(): void {
+    this.staffService.getStaff().subscribe((res: any) => {
+      this.staff = res;
+    });
+  }
+
+  loadServices(): void {
+    this.serviceService.getServices().subscribe((res: any) => {
+      this.services = res;
+    });
+  }
+
+  onClientChange(): void {
+    const client = this.clients.find((c) => c.id === this.form.value.client_id);
+
+    if (!client) return;
+
+    this.form.patchValue({
+      client_name: client.name,
+      phone: client.phone,
+    });
+  }
+
+  onStaffChange(): void {
+    const staff = this.staff.find((s) => s.id === this.form.value.staff_id);
+
+    if (!staff) return;
+
+    this.form.patchValue({
+      staff_name: staff.name,
+    });
+  }
+
+  onServiceChange(): void {
+    const service = this.services.find(
+      (s) => s.id === this.form.value.service_id,
+    );
+
+    if (!service) return;
+
+    this.form.patchValue({
+      service: service.name,
+
+      price: service.price,
+    });
+  }
+
+  submit(): void {
     if (this.form.invalid) {
+      alert('Please fill all required fields');
+
       return;
     }
 
-    this.appointmentService
-      .createAppointment({
-        ...this.form.value,
+    this.loading = true;
 
-        status: 'Booked',
-      } as any)
-      .subscribe({
-        next: () => {
-          this.router.navigate(['/appointments']);
-        },
-      });
+    this.appointmentService.createAppointment(this.form.value).subscribe({
+      next: () => {
+        alert('Appointment Booked Successfully');
 
-    alert('Appointment Booked');
+        this.router.navigate(['/appointments']);
+      },
 
-    this.router.navigate(['/appointments']);
+      error: (err: any) => {
+        alert(err?.error?.message || 'Unable to create appointment');
+
+        this.loading = false;
+      },
+    });
   }
 }

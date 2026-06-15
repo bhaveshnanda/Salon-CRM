@@ -61,6 +61,8 @@ exports.login = async (req, res) => {
       .eq("userid", userid)
       .single();
 
+    console.log("User fetched from database:", user);
+
     if (error || !user) {
       return res.status(401).json({
         success: false,
@@ -68,7 +70,12 @@ exports.login = async (req, res) => {
       });
     }
 
+    console.log("Entered Password:", password);
+    console.log("Stored Hash:", user.password);
+
     const passwordMatch = await bcrypt.compare(password, user.password);
+
+    console.log("Password Match:", passwordMatch);
 
     if (!passwordMatch) {
       return res.status(401).json({

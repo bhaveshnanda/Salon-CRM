@@ -1,1 +1,36 @@
-<p>bill-list works!</p>
+<div class="page-header">
+  <h2>Invoices</h2>
+</div>
+
+<div class="table-card">
+  <table>
+    <thead>
+      <tr>
+        <th>Invoice</th>
+        <th>Client</th>
+        <th>Service</th>
+        <th>Total</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let bill of bills">
+        <td>{{ bill.invoice_no }}</td>
+
+        <td>{{ bill.client_name }}</td>
+
+        <td>{{ bill.service_name }}</td>
+
+        <td>₹ {{ bill.total }}</td>
+
+        <td>{{ bill.payment_status }}</td>
+
+        <td>
+          <a [routerLink]="['/billing/invoice', bill.id]"> View </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

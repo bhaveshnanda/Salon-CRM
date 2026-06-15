@@ -21,6 +21,9 @@ import { MainLayoutComponent } from './layout/main-layout/main-layout.component'
 import { ServiceListComponent } from './pages/services/service-list/service-list.component';
 import { ServiceFormComponent } from './pages/services/service-form/service-form.component';
 
+import { BillListComponent } from './pages/billing/bill-list/bill-list.component';
+import { InvoiceComponent } from './pages/billing/invoice/invoice.component';
+
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
@@ -60,10 +63,23 @@ export const routes: Routes = [
         path: 'services/new',
         component: ServiceFormComponent,
       },
-
+      {
+        path: 'invoice/:id',
+        component: InvoiceComponent,
+      },
       {
         path: 'calendar',
         component: CalendarComponent,
+      },
+
+      {
+        path: 'billing',
+        component: BillListComponent,
+      },
+
+      {
+        path: 'billing/invoice/:id',
+        component: InvoiceComponent,
       },
 
       // APPOINTMENTS

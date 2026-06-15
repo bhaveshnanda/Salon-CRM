@@ -1,1 +1,112 @@
-<p>invoice works!</p>
+<div class="invoice-container">
+  <div id="invoice-print-area" class="invoice-card">
+    <div *ngIf="loading" class="loading">Loading Invoice...</div>
+
+    <div *ngIf="bill && !loading" class="invoice-card">
+      <!-- <div class="invoice-header">
+        <div>
+          <h1>Luxury Salon</h1>
+
+          <p>Professional Beauty & Spa Services</p>
+        </div>
+
+        <div>
+          <h2>INVOICE</h2>
+
+          <p>{{ bill.invoice_no }}</p>
+        </div>
+      </div> -->
+
+      <div class="invoice-header">
+        <div class="company">
+          <h1>Luxury Salon</h1>
+          <p>Mumbai, India</p>
+          <p>+91 9876543210</p>
+          <p>info&#64;luxurysalon.com</p>
+        </div>
+
+        <div class="invoice-meta">
+          <h2>INVOICE</h2>
+          <p><strong>No:</strong> {{ bill.invoice_no }}</p>
+          <p>
+            <strong>Date:</strong> {{ bill.created_at | date: "dd MMM yyyy" }}
+          </p>
+        </div>
+      </div>
+
+      <div class="invoice-info">
+        <div>
+          <strong>Client</strong>
+          <p>{{ bill.client_name }}</p>
+        </div>
+
+        <div>
+          <strong>Staff</strong>
+          <p>{{ bill.staff_name }}</p>
+        </div>
+
+        <div>
+          <strong>Service</strong>
+          <p>{{ bill.service_name }}</p>
+        </div>
+
+        <div>
+          <strong>Date</strong>
+          <p>{{ bill.created_at | date: "dd MMM yyyy" }}</p>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>Service Amount</td>
+            <td>₹ {{ bill.subtotal }}</td>
+          </tr>
+
+          <tr>
+            <td>GST (18%)</td>
+            <td>₹ {{ bill.tax }}</td>
+          </tr>
+
+          <tr>
+            <td>Discount</td>
+            <td>₹ {{ bill.discount }}</td>
+          </tr>
+
+          <tr class="total-row">
+            <td>Total</td>
+            <td>₹ {{ bill.total }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+
+      <div class="payment-status">
+        Status:
+        <span>{{ bill.payment_status }}</span>
+      </div>
+
+      <div class="invoice-actions">
+        <button class="download-btn" (click)="downloadPDF()">
+          Download PDF
+        </button>
+
+        <button class="share-btn" (click)="shareInvoice()">
+          Share Invoice
+        </button>
+      </div>
+      <div class="invoice-footer">
+        <p>Thank you for choosing Luxury Salon.</p>
+
+        <p>This is a computer generated invoice.</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+.table-card {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 14px;
+  border-bottom: 1px solid #eee;
+}
+
+a {
+  background: #c89b3c;
+  color: white;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+}

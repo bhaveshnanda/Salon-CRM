@@ -2,49 +2,77 @@
   <div class="welcome-card">
     <div>
       <h1>Welcome Back 👋</h1>
-
       <p>Manage your salon efficiently</p>
     </div>
   </div>
 
-  <div class="stats-grid">
-    <div class="stat-card" *ngFor="let stat of stats">
-      <h4>
-        {{ stat.title }}
-      </h4>
+  <div *ngIf="loading" class="loading">Loading Dashboard...</div>
 
-      <h2>
-        {{ stat.value }}
-      </h2>
+  <div *ngIf="!loading" class="stats-grid">
+    <!-- Row 1 -->
+
+    <div class="stat-card revenue">
+      <h4>Total Revenue</h4>
+      <h2>₹ {{ stats.totalRevenue }}</h2>
+    </div>
+
+    <div class="stat-card">
+      <h4>Total Clients</h4>
+      <h2>{{ stats.clients }}</h2>
+    </div>
+
+    <div class="stat-card">
+      <h4>Total Staff</h4>
+      <h2>{{ stats.staff }}</h2>
+    </div>
+
+    <!-- Row 2 -->
+
+    <div class="stat-card">
+      <h4>Total Appointments</h4>
+      <h2>{{ stats.appointments }}</h2>
+    </div>
+
+    <div class="stat-card">
+      <h4>Today's Appointments</h4>
+      <h2>{{ stats.todaysAppointments }}</h2>
+    </div>
+
+    <div class="stat-card pending">
+      <h4>Pending Payments</h4>
+      <h2>{{ stats.pendingPayments }}</h2>
     </div>
   </div>
 
   <div class="bottom-grid">
     <div class="card">
-      <h3>Today's Schedule</h3>
+      <h3>Business Summary</h3>
 
       <ul>
-        <li>09:00 AM - Hair Cut</li>
+        <li>Total Clients: {{ stats.clients }}</li>
 
-        <li>10:30 AM - Hair Spa</li>
+        <li>Total Staff: {{ stats.staff }}</li>
 
-        <li>01:00 PM - Facial</li>
+        <li>Total Appointments: {{ stats.appointments }}</li>
 
-        <li>04:00 PM - Hair Color</li>
+        <li>Today's Appointments: {{ stats.todaysAppointments }}</li>
       </ul>
     </div>
 
     <div class="card">
-      <h3>Top Services</h3>
+      <h3>Revenue Summary</h3>
 
       <ul>
-        <li>Hair Cut</li>
+        <li>Total Revenue: ₹ {{ stats.totalRevenue }}</li>
 
-        <li>Hair Spa</li>
+        <li>Pending Payments: {{ stats.pendingPayments }}</li>
 
-        <li>Facial</li>
+        <li>
+          Completed Bills:
+          {{ stats.pendingPayments === 0 ? "All Paid" : "Pending Bills Exist" }}
+        </li>
 
-        <li>Hair Coloring</li>
+        <li>Salon Status: Active</li>
       </ul>
     </div>
   </div>

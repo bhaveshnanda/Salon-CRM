@@ -1,44 +1,10 @@
 const supabase = require("../config/supabase");
 
-exports.generateBill = async (req, res) => {
-  try {
-    const { appointment_id, subtotal, tax, discount } = req.body;
-
-    const total = Number(subtotal) + Number(tax) - Number(discount);
-
-    const { data, error } = await supabase
-
-      .from("bills")
-
-      .insert([
-        {
-          appointment_id,
-          subtotal,
-          tax,
-          discount,
-          total,
-        },
-      ])
-      .select();
-
-    if (error) throw error;
-
-    res.status(201).json(data);
-  } catch (err) {
-    res.status(500).json({
-      message: err.message,
-    });
-  }
-};
-
 exports.getBills = async (req, res) => {
   try {
     const { data, error } = await supabase
-
       .from("bills")
-
       .select("*")
-
       .order("created_at", {
         ascending: false,
       });
@@ -56,11 +22,8 @@ exports.getBills = async (req, res) => {
 exports.getBillById = async (req, res) => {
   try {
     const { data, error } = await supabase
-
       .from("bills")
-
       .select("*")
-
       .eq("id", req.params.id)
       .single();
 
@@ -74,21 +37,58 @@ exports.getBillById = async (req, res) => {
   }
 };
 
-exports.deleteBill = async (req, res) => {
+exports.generateBill = async (req, res) => {
   try {
-    const { error } = await supabase
+    const appointmentId = req.params.id;
 
+    const { data: appointment, error: appError } = await supabase
+      .from("appointments")
+      .select("*")
+      .eq("id", appointmentId)
+      .single();
+
+    if (appError) throw appError;
+
+    const subtotal = Number(appointment.price || 0);
+
+    const tax = subtotal * 0.18;
+
+    const discount = 0;
+
+    const total = subtotal + tax - discount;
+
+    const invoiceNo = "INV-" + Math.floor(100000 + Math.random() * 900000);
+
+    const { data, error } = await supabase
       .from("bills")
+      .insert([
+        {
+          appointment_id: appointment.id,
 
-      .delete()
+          invoice_no: invoiceNo,
 
-      .eq("id", req.params.id);
+          client_name: appointment.client_name,
+
+          staff_name: appointment.staff_name,
+
+          service_name: appointment.service,
+
+          subtotal,
+
+          tax,
+
+          discount,
+
+          total,
+
+          payment_status: "Pending",
+        },
+      ])
+      .select();
 
     if (error) throw error;
 
-    res.json({
-      message: "Bill deleted successfully",
-    });
+    res.status(201).json(data[0]);
   } catch (err) {
     res.status(500).json({
       message: err.message,

@@ -16,7 +16,11 @@ export class BillingService {
     return this.http.get(this.api);
   }
 
-  generateBill(data: any) {
-    return this.http.post(this.api, data);
+  getBill(id: string) {
+    return this.http.get(`${this.api}/${id}`);
+  }
+
+  generateBill(id: string) {
+    return this.http.post(`${this.api}/generate/${id}`, {});
   }
 }

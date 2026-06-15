@@ -40,7 +40,7 @@ export class RegisterComponent {
     }
 
     this.http
-      .post('http://localhost:5000/api/auth/register', this.form.value)
+      .post('http://localhost:3000/api/auth/register', this.form.value)
       .subscribe({
         next: () => {
           alert('Account Created');

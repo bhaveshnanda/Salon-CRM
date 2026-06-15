@@ -1,29 +1,98 @@
-<div class="appointment-card">
-  <h2>New Appointment</h2>
+<div class="appointment-container">
+  <div class="appointment-card">
+    <div class="card-header">
+      <h2>Book Appointment</h2>
+      <p>Create a new salon booking</p>
+    </div>
 
-  <form [formGroup]="form" (ngSubmit)="submit()">
-    <input placeholder="Client Name" formControlName="clientName" />
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <!-- Client -->
 
-    <input placeholder="Phone Number" formControlName="phone" />
+      <div class="form-group">
+        <label>Client</label>
 
-    <input placeholder="Staff Name" formControlName="staffName" />
+        <select formControlName="client_id" (change)="onClientChange()">
+          <option value="">Select Client</option>
 
-    <select formControlName="service" (change)="updatePrice()">
-      <option value="">Select Service</option>
+          <option *ngFor="let client of clients" [value]="client.id">
+            {{ client.name }}
+          </option>
+        </select>
+      </div>
 
-      <option *ngFor="let s of services" [value]="s.name">
-        {{ s.name }}
-      </option>
-    </select>
+      <!-- Phone -->
 
-    <input formControlName="price" readonly />
+      <div class="form-group">
+        <label>Phone</label>
 
-    <input type="date" formControlName="date" />
+        <input type="text" formControlName="phone" readonly />
+      </div>
 
-    <input type="time" formControlName="time" />
+      <!-- Staff -->
 
-    <textarea rows="4" placeholder="Notes" formControlName="notes"> </textarea>
+      <div class="form-group">
+        <label>Staff</label>
 
-    <button type="submit">Book Appointment</button>
-  </form>
+        <select formControlName="staff_id" (change)="onStaffChange()">
+          <option value="">Select Staff</option>
+
+          <option *ngFor="let member of staff" [value]="member.id">
+            {{ member.name }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Service -->
+
+      <div class="form-group">
+        <label>Service</label>
+
+        <select formControlName="service_id" (change)="onServiceChange()">
+          <option value="">Select Service</option>
+
+          <option *ngFor="let item of services" [value]="item.id">
+            {{ item.name }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Price -->
+
+      <div class="form-group">
+        <label>Price</label>
+
+        <input type="text" formControlName="price" readonly />
+      </div>
+
+      <!-- Date -->
+
+      <div class="form-group">
+        <label>Appointment Date</label>
+
+        <input type="date" formControlName="appointment_date" />
+      </div>
+
+      <!-- Time -->
+
+      <div class="form-group">
+        <label>Appointment Time</label>
+
+        <input type="time" formControlName="appointment_time" />
+      </div>
+
+      <!-- Notes -->
+
+      <div class="form-group">
+        <label>Notes</label>
+
+        <textarea rows="4" formControlName="notes"> </textarea>
+      </div>
+
+      <!-- Button -->
+
+      <button type="submit" class="book-btn" [disabled]="loading">
+        {{ loading ? "Booking..." : "Book Appointment" }}
+      </button>
+    </form>
+  </div>
 </div>

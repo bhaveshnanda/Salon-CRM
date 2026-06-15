@@ -1,67 +1,135 @@
-.top-bar {
+.page-header {
   display: flex;
-
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  gap: 20px;
+}
 
-  margin-bottom: 20px;
+.page-header h2 {
+  margin: 0;
+  color: #222;
+}
+
+.page-header p {
+  margin: 4px 0 0;
+  color: #777;
 }
 
 .add-btn {
-  background: #c89b3c;
-
+  background: linear-gradient(135deg, #c89b3c, #d6a43d);
   color: white;
-
-  padding: 12px 18px;
-
-  border-radius: 10px;
-
   text-decoration: none;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-weight: 600;
 }
 
-.table-wrapper {
+.table-card {
   background: white;
-
-  border-radius: 20px;
-
-  overflow: auto;
-
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 table {
   width: 100%;
-
   border-collapse: collapse;
 }
 
+thead {
+  background: #f8f4eb;
+}
+
 th {
-  background: #c89b3c;
-
-  color: white;
-
-  padding: 14px;
+  padding: 16px;
+  text-align: left;
+  color: #444;
 }
 
 td {
-  padding: 14px;
-
-  border-bottom: 1px solid #eee;
+  padding: 16px;
+  border-top: 1px solid #eee;
 }
 
-button {
-  background: red;
+.status {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
 
-  color: white;
+.booked {
+  background: #e8f7eb;
+  color: #198754;
+}
 
+.cancelled {
+  background: #ffe8e8;
+  color: #dc3545;
+}
+
+.rescheduled {
+  background: #fff5dd;
+  color: #ff9800;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.actions button,
+.actions a {
   border: none;
-
   padding: 8px 12px;
-
   border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 13px;
+  color: white;
+}
+
+.view-btn {
+  background: #3498db;
+}
+
+.bill-btn {
+  background: #9b59b6;
+}
+
+.cancel-btn {
+  background: #f39c12;
+}
+
+.delete-btn {
+  background: #e74c3c;
+}
+
+.loading,
+.empty {
+  text-align: center;
+  padding: 25px;
+}
+
+@media (max-width: 992px) {
+  .table-card {
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 1000px;
+  }
 }
 
 @media (max-width: 768px) {
-  table {
-    min-width: 900px;
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .add-btn {
+    text-align: center;
   }
 }
