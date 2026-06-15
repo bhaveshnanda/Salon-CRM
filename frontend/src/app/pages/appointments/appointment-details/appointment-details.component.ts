@@ -1,14 +1,14 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-
+import { FormsModule } from '@angular/forms';
 import { AppointmentService } from '../../../core/services/appointment.service';
 import { BillingService } from '../../../core/services/billing.service';
 
 @Component({
   selector: 'app-appointment-details',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './appointment-details.component.html',
   styleUrls: ['./appointment-details.component.scss'],
 })
