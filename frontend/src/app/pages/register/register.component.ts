@@ -1,11 +1,8 @@
 import { Component, inject } from '@angular/core';
-
+import { environment } from '../../../environments/environment';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-
 import { CommonModule } from '@angular/common';
-
 import { Router } from '@angular/router';
-
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -40,7 +37,7 @@ export class RegisterComponent {
     }
 
     this.http
-      .post('http://localhost:3000/api/auth/register', this.form.value)
+      .post(`${environment.apiUrl}/auth/register`, this.form.value)
       .subscribe({
         next: () => {
           alert('Account Created');
