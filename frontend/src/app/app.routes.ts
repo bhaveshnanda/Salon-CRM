@@ -92,6 +92,10 @@ export const routes: Routes = [
         path: 'appointments/new',
         component: AppointmentFormComponent,
       },
+      {
+        path: 'appointments/edit/:id',
+        component: AppointmentFormComponent,
+      },
 
       {
         path: 'appointments/:id',

@@ -1,8 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { AppointmentService } from '../../../core/services/appointment.service';
 import { ClientService } from '../../../core/services/client.service';
@@ -22,72 +21,93 @@ export class AppointmentFormComponent implements OnInit {
   private router = inject(Router);
 
   private appointmentService = inject(AppointmentService);
-
   private clientService = inject(ClientService);
-
   private staffService = inject(StaffService);
-
   private serviceService = inject(ServiceService);
 
   clients: any[] = [];
-
   staff: any[] = [];
-
   services: any[] = [];
 
   loading = false;
+  isEditMode = false;
+  appointmentId: string | null = null;
 
   form = this.fb.group({
     client_id: ['', Validators.required],
-
     staff_id: ['', Validators.required],
-
     service_id: ['', Validators.required],
 
     client_name: [''],
-
     phone: [''],
-
     staff_name: [''],
-
     service: [''],
-
     price: [0],
 
     appointment_date: ['', Validators.required],
-
     appointment_time: ['', Validators.required],
-
     notes: [''],
+    status: ['Booked'],
   });
 
   ngOnInit(): void {
+    this.appointmentId = this.route.snapshot.paramMap.get('id');
+    this.isEditMode = !!this.appointmentId;
+
     this.loadClients();
-
     this.loadStaff();
-
     this.loadServices();
 
-    this.form.patchValue({
-      appointment_date: this.route.snapshot.queryParamMap.get('date') || '',
+    if (this.isEditMode && this.appointmentId) {
+      this.loadAppointment(this.appointmentId);
+    } else {
+      this.form.patchValue({
+        appointment_date: this.route.snapshot.queryParamMap.get('date') || '',
 
-      appointment_time: this.route.snapshot.queryParamMap.get('time') || '',
+        appointment_time: this.route.snapshot.queryParamMap.get('time') || '',
+      });
+    }
+  }
+
+  loadAppointment(id: string): void {
+    this.appointmentService.getAppointment(id).subscribe({
+      next: (res: any) => {
+        this.form.patchValue({
+          client_id: res.client_id,
+          staff_id: res.staff_id,
+          service_id: res.service_id,
+
+          client_name: res.client_name,
+          phone: res.phone,
+          staff_name: res.staff_name,
+          service: res.service,
+          price: res.price,
+
+          appointment_date: res.appointment_date,
+          appointment_time: res.appointment_time,
+          notes: res.notes,
+          status: res.status,
+        });
+      },
+      error: (err: any) => {
+        console.error(err);
+      },
     });
   }
-  
+
   loadClients(): void {
     this.clientService.getClients().subscribe((res: any) => {
-      this.clients = res;
+      this.clients = res.data || res;
     });
   }
 
   loadStaff(): void {
     this.staffService.getStaff().subscribe((res: any) => {
-      this.staff = res;
+      this.staff = res.data || res;
 
       const staffId = this.route.snapshot.queryParamMap.get('staffId');
 
-      if (staffId) {
+      if (!this.isEditMode && staffId) {
         const selectedStaff = this.staff.find((s) => s.id === staffId);
 
         if (selectedStaff) {
@@ -102,7 +122,7 @@ export class AppointmentFormComponent implements OnInit {
 
   loadServices(): void {
     this.serviceService.getServices().subscribe((res: any) => {
-      this.services = res;
+      this.services = res.data || res;
     });
   }
 
@@ -136,7 +156,6 @@ export class AppointmentFormComponent implements OnInit {
 
     this.form.patchValue({
       service: service.name,
-
       price: service.price,
     });
   }
@@ -144,22 +163,35 @@ export class AppointmentFormComponent implements OnInit {
   submit(): void {
     if (this.form.invalid) {
       alert('Please fill all required fields');
-
       return;
     }
 
     this.loading = true;
 
+    if (this.isEditMode && this.appointmentId) {
+      this.appointmentService
+        .updateAppointment(this.appointmentId, this.form.value)
+        .subscribe({
+          next: () => {
+            alert('Appointment Updated Successfully');
+            this.router.navigate(['/appointments']);
+          },
+          error: (err: any) => {
+            alert(err?.error?.message || 'Unable to update appointment');
+            this.loading = false;
+          },
+        });
+
+      return;
+    }
+
     this.appointmentService.createAppointment(this.form.value).subscribe({
       next: () => {
         alert('Appointment Booked Successfully');
-
         this.router.navigate(['/appointments']);
       },
-
       error: (err: any) => {
         alert(err?.error?.message || 'Unable to create appointment');
-
         this.loading = false;
       },
     });

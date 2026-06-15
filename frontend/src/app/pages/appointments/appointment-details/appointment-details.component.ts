@@ -1,21 +1,21 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+
 import { AppointmentService } from '../../../core/services/appointment.service';
 import { BillingService } from '../../../core/services/billing.service';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-appointment-details',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './appointment-details.component.html',
   styleUrls: ['./appointment-details.component.scss'],
 })
 export class AppointmentDetailsComponent implements OnInit {
   newDate = '';
 
-  newTime = ''; 
+  newTime = '';
 
   private route = inject(ActivatedRoute);
 
@@ -49,6 +49,76 @@ export class AppointmentDetailsComponent implements OnInit {
         this.loading = false;
       },
     });
+  }
+  shareWithClient(): void {
+    const phone = this.formatPhoneForWhatsApp(this.appointment.phone);
+
+    const message = `
+Luxury Salon
+
+Appointment Confirmed
+
+Client: ${this.appointment.client_name}
+
+Service: ${this.appointment.service}
+
+Staff: ${this.appointment.staff_name}
+
+Date: ${this.appointment.appointment_date}
+
+Time: ${this.appointment.appointment_time}
+
+Thank you for choosing Luxury Salon.
+`;
+
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+    window.open(url, '_blank');
+  }
+
+  shareWithStaff(): void {
+    const staffPhone = this.appointment.staff_phone || '';
+
+    if (!staffPhone) {
+      alert('Staff phone number not available');
+      return;
+    }
+
+    const phone = this.formatPhoneForWhatsApp(staffPhone);
+
+    const message = `
+New Appointment Assigned
+
+Client: ${this.appointment.client_name}
+
+Phone: ${this.appointment.phone}
+
+Service: ${this.appointment.service}
+
+Date: ${this.appointment.appointment_date}
+
+Time: ${this.appointment.appointment_time}
+
+Please be available.
+`;
+
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+    window.open(url, '_blank');
+  }
+
+  formatPhoneForWhatsApp(phone: string): string {
+    if (!phone) {
+      return '';
+    }
+
+    let cleaned = phone.replace(/\D/g, '');
+
+    if (cleaned.length === 10) {
+      cleaned = '91' + cleaned;
+    }
+
+    return cleaned;
   }
 
   rescheduleAppointment(): void {

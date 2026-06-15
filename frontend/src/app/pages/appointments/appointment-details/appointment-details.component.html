@@ -86,8 +86,18 @@
       >
         Cancel Appointment
       </button>
+      <a class="edit-btn" [routerLink]="['/appointments/edit', appointment.id]">
+        Edit Appointment
+      </a>
 
       <button class="bill-btn" (click)="generateBill()">Generate Bill</button>
+      <button class="share-client-btn" (click)="shareWithClient()">
+        Share To Client
+      </button>
+
+      <button class="share-staff-btn" (click)="shareWithStaff()">
+        Share To Staff
+      </button>
     </div>
   </div>
 </div>

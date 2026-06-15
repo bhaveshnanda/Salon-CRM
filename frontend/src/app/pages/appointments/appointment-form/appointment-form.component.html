@@ -1,7 +1,9 @@
 <div class="appointment-container">
   <div class="appointment-card">
     <div class="card-header">
-      <h2>Book Appointment</h2>
+      <h2>
+        {{ isEditMode ? "Edit Appointment" : "Book Appointment" }}
+      </h2>
       <p>Create a new salon booking</p>
     </div>
 
@@ -91,7 +93,13 @@
       <!-- Button -->
 
       <button type="submit" class="book-btn" [disabled]="loading">
-        {{ loading ? "Booking..." : "Book Appointment" }}
+        {{
+          loading
+            ? "Please wait..."
+            : isEditMode
+              ? "Update Appointment"
+              : "Book Appointment"
+        }}
       </button>
     </form>
   </div>

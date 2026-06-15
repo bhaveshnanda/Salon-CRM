@@ -1,41 +1,81 @@
 <div class="calendar-page">
   <div class="calendar-header">
-    <h2>Salon Booking Calendar</h2>
+    <div>
+      <h2>Salon Booking Chart</h2>
+      <p>Select date, view staff-wise slots, and book available slots</p>
+    </div>
 
-    <input type="date" [(ngModel)]="selectedDate" />
+    <div class="date-box">
+      <label>Date</label>
+
+      <input type="date" [(ngModel)]="selectedDate" (change)="onDateChange()" />
+    </div>
   </div>
 
-  <table class="calendar-table">
-    <thead>
-      <tr>
-        <th>Time</th>
+  <div class="legend-row">
+    <span><b class="legend available"></b> Available slot</span>
+    <span><b class="legend booked"></b> Booked slot</span>
+    <span><b class="legend empty"></b> Empty/new booking slot</span>
+  </div>
 
-        <th *ngFor="let member of staff">
-          {{ member.name }}
-        </th>
-      </tr>
-    </thead>
+  <div class="calendar-card">
+    <div class="date-title">Booking Schedule for {{ selectedDate }}</div>
 
-    <tbody>
-      <tr *ngFor="let slot of slots">
-        <td>{{ slot }}</td>
+    <div class="empty-state" *ngIf="staff.length === 0">
+      No staff found. Please add active staff first.
+    </div>
 
-        <td *ngFor="let member of staff">
-          <ng-container
-            *ngIf="getAppointment(member.id, slot) as booking; else freeSlot"
-          >
-            <div class="booked-slot">
-              {{ booking.service }}
+    <table class="booking-table" *ngIf="staff.length > 0">
+      <thead>
+        <tr>
+          <th class="time-header">Time Slots</th>
+
+          <th *ngFor="let member of staff">
+            <div class="staff-name">
+              {{ member.name }}
             </div>
-          </ng-container>
 
-          <ng-template #freeSlot>
-            <button class="available-slot" (click)="bookSlot(member, slot)">
-              Available
-            </button>
-          </ng-template>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+            <div class="staff-role">
+              {{ member.designation || member.specialization || "Staff" }}
+            </div>
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let time of timeSlots">
+          <td class="time-cell">
+            {{ time }}
+          </td>
+
+          <td *ngFor="let member of staff">
+            <ng-container
+              *ngIf="
+                getBooking(member.id, time) as booking;
+                else availableTemplate
+              "
+            >
+              <div
+                class="slot booked-slot"
+                (click)="openBookingDetails(booking.id)"
+              >
+                <strong>{{ booking.service }}</strong>
+                <span>{{ booking.client_name }}</span>
+                <small>{{ booking.status }}</small>
+              </div>
+            </ng-container>
+
+            <ng-template #availableTemplate>
+              <button
+                class="slot available-slot"
+                (click)="selectAvailableSlot(member, time)"
+              >
+                + Available
+              </button>
+            </ng-template>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

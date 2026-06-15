@@ -1,58 +1,59 @@
+/* Parent container */
+.page-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* use center if you want vertical center too */
+  padding: 30px;
+}
+
+/* Form card */
 .form-card {
   background: white;
-
   padding: 30px;
-
   border-radius: 12px;
-
-  max-width: 700px;
+  width: 100%;
+  max-width: 900px; /* increased from 700px */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .form-group {
   margin-bottom: 20px;
 }
 
-select{
-  width:100%;
-  padding:12px;
-  border:1px solid #ddd;
-  border-radius:8px;
-}
-
 label {
   display: block;
-
   margin-bottom: 8px;
-
   font-weight: 600;
 }
 
-input {
+input,
+select {
   width: 100%;
-
   padding: 12px;
-
   border: 1px solid #ddd;
-
   border-radius: 8px;
+  box-sizing: border-box;
 }
-
 .save-btn {
   background: #c89b3c;
-
   color: white;
-
   border: none;
-
   padding: 12px 25px;
-
   border-radius: 8px;
-
   cursor: pointer;
 }
 
+.save-btn:hover {
+  opacity: 0.9;
+}
+
 @media (max-width: 768px) {
+  .page-container {
+    padding: 15px;
+  }
+
   .form-card {
     padding: 20px;
+    max-width: 100%;
   }
 }
